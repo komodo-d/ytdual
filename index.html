@@ -28,7 +28,7 @@
                 <label class="form-label">Volumen (100%)</label>
                 <input id="volA" type="range" min="0" max="100" value="100" class="form-range" />
               </div>
-              <button id="btnLoadA" class="btn btn-outline-light">Cargar</button>
+              <button id="btnLoadA" class="btn btn-outline-light" disabled>Cargar</button>
             </div>
             <div class="ratio ratio-16x9 yt-box">
               <div id="playerA"></div>
@@ -51,7 +51,7 @@
                 <label class="form-label">Volumen (20%)</label>
                 <input id="volB" type="range" min="0" max="100" value="20" class="form-range" />
               </div>
-              <button id="btnLoadB" class="btn btn-outline-light">Cargar</button>
+              <button id="btnLoadB" class="btn btn-outline-light" disabled>Cargar</button>
             </div>
             <div class="ratio ratio-16x9 yt-box">
               <div id="playerB"></div>
@@ -63,15 +63,23 @@
 
     <!-- Controles globales -->
     <div class="d-flex flex-wrap gap-2 mt-4">
-      <button id="btnPlayBoth" class="btn btn-primary">▶️ Reproducir ambos</button>
-      <button id="btnPauseBoth" class="btn btn-outline-light">⏸️ Pausar ambos</button>
-      <button id="btnStopBoth" class="btn btn-outline-danger">⏹️ Detener ambos</button>
+      <button id="btnPlayBoth" class="btn btn-primary" disabled>▶️ Reproducir ambos</button>
+      <button id="btnPauseBoth" class="btn btn-outline-light" disabled>⏸️ Pausar ambos</button>
+      <button id="btnStopBoth" class="btn btn-outline-danger" disabled>⏹️ Detener ambos</button>
       <div class="ms-auto small footer-note">Nota: primero carga cada video con su botón "Cargar".</div>
     </div>
   </div>
 
   <!-- Orden correcto: API YT -> utils global -> app global -> bootstrap -->
-  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+  // Define el callback ANTES de cargar la API para no perder la llamada
+  window.__YT_API_READY__ = false;
+  window.onYouTubeIframeAPIReady = function() {
+    window.__YT_API_READY__ = true;
+    document.dispatchEvent(new Event('ytapiready'));
+  };
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
   <script src="./assets/js/youtube-utils.global.js"></script>
   <script src="./assets/js/app.global.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

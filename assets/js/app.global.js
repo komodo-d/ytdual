@@ -1,14 +1,27 @@
 
 // app.global.js
+
+// app.global.js (patched for GH Pages timing)
 let playerA = null;
 let playerB = null;
-let apiReady = false;
+let apiReady = !!window.__YT_API_READY__;
 
-window.onYouTubeIframeAPIReady = () => { apiReady = true; };
+function markReady(){
+  apiReady = true;
+  // habilitar botones si estaban deshabilitados
+  const ids = ['btnLoadA','btnLoadB','btnPlayBoth','btnPauseBoth','btnStopBoth'];
+  ids.forEach(id => { const el = document.getElementById(id); if (el) el.disabled = false; });
+}
+
+document.addEventListener('ytapiready', markReady);
+
+// fallback si la API ya estaba lista antes de este script
+if (apiReady) markReady();
 
 function ensureAPI() {
   return apiReady && window.YT && typeof YT.Player === 'function';
 }
+
 
 function loadVideo(which) {
   if (!ensureAPI()) {
