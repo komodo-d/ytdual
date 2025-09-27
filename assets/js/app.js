@@ -3,8 +3,21 @@ import { getYouTubeID, createPlayer } from './youtube-utils.js';
 
 let playerA = null;
 let playerB = null;
+let apiReady = false;
+
+window.onYouTubeIframeAPIReady = () => {
+  apiReady = true;
+};
+
+function ensureAPI() {
+  return apiReady && window.YT && typeof YT.Player === 'function';
+}
 
 function loadVideo(which) {
+  if (!ensureAPI()) {
+    alert('La API de YouTube aún se está cargando. Espera 1-2 segundos e intenta nuevamente.');
+    return;
+  }
   const isA = which === 'A';
   const urlInput = document.getElementById(isA ? 'urlA' : 'urlB');
   const volInput = document.getElementById(isA ? 'volA' : 'volB');
@@ -67,7 +80,5 @@ function bindUI() {
   });
 }
 
-// YouTube IFrame API ready hook
-window.onYouTubeIframeAPIReady = () => {
-  bindUI();
-};
+// Bind UI as soon as DOM is ready to avoid race conditions
+document.addEventListener('DOMContentLoaded', bindUI);
