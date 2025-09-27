@@ -1,0 +1,39 @@
+
+:root{
+  --bg:#0f172a;
+  --card:#111827;
+  --border:#1f2937;
+  --ink:#e2e8f0;
+  --muted:#94a3b8;
+  --accent:#93c5fd;
+}
+
+html,body{height:100%;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:.75rem;
+}
+
+.card-title{ color:var(--accent); }
+
+label{ color:#cbd5e1; }
+
+.ratio{ background:#0b1220; border-radius:.5rem; }
+.yt-box{ border:1px solid var(--border); border-radius:.5rem; overflow:hidden; }
+
+.btn-primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#0b1220;
+}
+.btn-primary:hover{
+  filter:brightness(.95);
+}
+
+.footer-note{ color:var(--muted); }
